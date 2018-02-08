@@ -2,9 +2,22 @@ const express = require('express');
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+
+//connect to mongodb with mongoose; mongoose use model and schema 
+
+mongoose.connect(
+    'mongodb://testuser:' +
+    process.env.MONGO_ATLAS_PW + 
+    '@clustertester-shard-00-00-obaic.mongodb.net:27017,clustertester-shard-00-01-obaic.mongodb.net:27017,clustertester-shard-00-02-obaic.mongodb.net:27017/test?ssl=true&replicaSet=ClusterTester-shard-0&authSource=admin', 
+    {
+        useMongoClient: true
+    }
+)
+// mongoose.Promise = global.Promise;
 
 // Morgan supports a handful of pre-defined logged formats with well-know names/structures. combined, common, dev, short, tiny. That string is telling morgan which log format you'd like it to use
 app.use(morgan("dev"));
